@@ -1,4 +1,5 @@
 import { Grid, Table, TableContainer, Typography, Paper, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
+import * as moment from 'moment-timezone';
 
 function removeColors(input) {
     return input.replace(/#[a-fA-F0-9]{6}/,"")
@@ -42,7 +43,7 @@ export default function TrackLeaderboard({ tracks, current }) {
                                         <TableCell>{index + 1}</TableCell>
                                         <TableCell>{removeColors(time.name)}</TableCell>
                                         <TableCell>{time.time}</TableCell>
-                                        <TableCell>{time.date}</TableCell>
+                                        <TableCell>{moment.tz(time.date, "Europe/Tallinn").local().format("YYYY-MM-DD HH:mm:ss")}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
