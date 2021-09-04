@@ -2,17 +2,21 @@ import { Button, Container, TextField, Grid, CircularProgress, Typography } from
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useEffect, useState } from 'react';
 import Helmet from 'react-helmet';
-import { useRouteMatch, Switch, Route, Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useHistory } from "react-router";
 import TrackLeaderboard from "../components/TrackLeaderboard";
+
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
 
 export default function TrackTimes() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isError, setIsError] = useState(false);
     const [trackLBs, setTrackLBs] = useState([]);
 
-    let match = useRouteMatch();
     let history = useHistory();
+    let query = useQuery();
 
     useEffect(() => {
         fetch("https://mta.leguaan.ee/iguana_points/tracktimes.json")
@@ -57,7 +61,7 @@ export default function TrackTimes() {
                     <Autocomplete
                         onChange={(event, value, reason) => {
                             if (reason === "select-option") {
-                                history.push(`./${encodeURI(value.track_name)}`)
+                                history.push(`/track_times?track=${encodeURI(value.track_name)}`)
                             }
                         }} 
                         noOptionsText="No tracks to display"
@@ -65,15 +69,7 @@ export default function TrackTimes() {
                         getOptionLabel={(option) => option.track_name} 
                         renderInput={(params) => <TextField {...params} label="Search for track" variant="filled" />}/> 
                 </Container>
-                <Switch>
-                    <Route path={`${match.path}/:trackName`}>
-                        <TrackLeaderboard tracks={trackLBs}/>
-                    </Route>
-                    <Route path={match.path}>
-                        <br/>
-                        <Typography variant="h4" style={{ textAlign: 'center' }}><b>Please select a track</b></Typography>
-                    </Route>
-                </Switch>          
+                <TrackLeaderboard tracks={trackLBs} current={query.get("track")}/>       
             </>
             }
             
