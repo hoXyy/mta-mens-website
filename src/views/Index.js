@@ -102,7 +102,7 @@ export default function Index() {
                                                 <TableCell>{placement.rank}</TableCell>
                                                 <TableCell>{removeColors(placement.name)}</TableCell>
                                                 <TableCell>{placement.points}</TableCell>
-                                                <TableCell>{placement.last_updated}</TableCell>
+                                                <TableCell>{moment(placement.last_updated + "Z").format("YYYY-MM-DD HH:mm:ss")}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
