@@ -21,7 +21,7 @@ function formatTrackTime(time) {
     return time_string;
 }
 
-export default function Index() {
+export default function Index({ theme }) {
     const [isLoaded, setIsLoaded] = useState(false)
     const [pointsLB, setPointsLB] = useState([]);
     const [trackRecords, setTrackRecords] = useState([]);
@@ -126,7 +126,7 @@ export default function Index() {
                                         {trackRecords.map((record) => (
                                             <TableRow key={record.time}>
                                                 <TableCell>{removeColors(record.name)}</TableCell>
-                                                <TableCell>{record.map}</TableCell>
+                                                <TableCell><Link style={{ color: theme.palette.text.primary }} to={`/track_times?track=${encodeURI(record.map)}`}>{record.map}</Link></TableCell>
                                                 <TableCell>{formatTrackTime(record.time)}</TableCell>
                                                 <TableCell>{moment(record.date + "Z").format("YYYY-MM-DD HH:mm:ss")}</TableCell>
                                             </TableRow>

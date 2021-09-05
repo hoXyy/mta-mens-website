@@ -34,7 +34,7 @@ function App() {
               <TrackTimes/>
             </Route>
             <Route path="/">
-              <Index/>
+              <Index theme={theme}/>
             </Route>
           </Switch>
         </Router>
